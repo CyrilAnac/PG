@@ -113,22 +113,6 @@
       :selected (eq proof-three-window-mode-policy 'vertical)
       :help "One column mode"])
     ["Refresh Windows Layout" proof-layout-windows t]
-    ("Automatic Proof using annotations..."
-     ["ask"
-      (customize-set-variable 'coq-accept-proof-using-suggestion 'ask)
-      :style radio
-      :selected (eq coq-accept-proof-using-suggestion 'ask)
-      :help "ask user when a new proof using annotation is suggested"]
-     ["always"
-      (customize-set-variable 'coq-accept-proof-using-suggestion 'always)
-      :style radio
-      :selected (eq coq-accept-proof-using-suggestion 'always)
-      :help "Always update the proof using annotation when suggested"]
-     ["never"
-      (customize-set-variable 'coq-accept-proof-using-suggestion 'never)
-      :style radio
-      :selected (eq coq-accept-proof-using-suggestion 'never)
-      :help "never update the proof using"])
     ["Toggle tooltips" proof-output-tooltips-toggle
      :style toggle
      :selected proof-output-tooltips
@@ -162,7 +146,30 @@
 		   coq-compile-parallel-in-background)
       :help ,(concat "Continue background compilation after "
 		     "the first error as far as possible")]
-     ("Quick compilation"
+     ("vos compilation (coq >= 8.11)"
+      ["unset"
+       (customize-set-variable 'coq-compile-vos nil)
+       :style radio
+       :selected (eq coq-compile-vos nil)
+       :active (and coq-compile-before-require
+		    coq-compile-parallel-in-background)
+       :help "Derive behavior from Quick compilation setting above"]
+      ["use -vos"
+       (customize-set-variable 'coq-compile-vos 'vos)
+       :style radio
+       :selected (eq coq-compile-vos 'vos)
+       :active (and coq-compile-before-require
+		    coq-compile-parallel-in-background)
+       :help "Speedup with -vos, possibly inconsistent"]
+      ["ensure vo"
+       (customize-set-variable 'coq-compile-vos 'ensure-vo)
+       :style radio
+       :selected (eq coq-compile-vos 'ensure-vo)
+       :active (and coq-compile-before-require
+		    coq-compile-parallel-in-background)
+       :help "Ensure only vo's are used for consistency"]
+      )
+     ("Quick compilation (coq < 8.11)"
       ["no quick"
        (customize-set-variable 'coq-compile-quick 'no-quick)
        :style radio
@@ -252,6 +259,27 @@
        :style radio
        :selected (eq coq-diffs 'removed)
        :help "Show diffs: added and removed"])
+    ("\"Proof using\" mode..."
+     ["ask"
+      (customize-set-variable 'coq-accept-proof-using-suggestion 'ask)
+      :style radio
+      :selected (eq coq-accept-proof-using-suggestion 'ask)
+      :help "Ask user when a new proof using annotation is suggested"]
+     ["always"
+      (customize-set-variable 'coq-accept-proof-using-suggestion 'always)
+      :style radio
+      :selected (eq coq-accept-proof-using-suggestion 'always)
+      :help "Always update the proof using annotation when suggested"]
+     ["highlight"
+      (customize-set-variable 'coq-accept-proof-using-suggestion 'highlight)
+      :style radio
+      :selected (eq coq-accept-proof-using-suggestion 'highlight)
+      :help "Highight the proof when an auto insert is suggested (right click to insert))"]
+     ["Ignore"
+      (customize-set-variable 'coq-accept-proof-using-suggestion 'ignore)
+      :style radio
+      :selected (eq coq-accept-proof-using-suggestion 'ignore)
+      :help "no highlight (right click insertion still possible)"])
     ""
     ["Print..." coq-Print :help "With prefix arg (C-u): Set Printing All first"]
     ["Check..." coq-Check :help "With prefix arg (C-u): Set Printing All first"]
