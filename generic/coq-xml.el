@@ -1,6 +1,3 @@
-
-
-
 ;;;###autoload
 (defun proof-server-start ()
   (interactive)
@@ -36,5 +33,10 @@
 	 (proof-multiple-frames-enable))))))
 
 
+(defun proof-context-available-p ()
+  (and proof-server-process
+       proof-context-command))
+  
+(provide 'coq-xml)
 
-(proof-server-start)
+;; coq-xml.el ends here
